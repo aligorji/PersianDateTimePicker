@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<attr name="persianDateTimePickerFontPath"
+		  format="string" />
+
+	<attr name="persianDateTimePickerTextAppearance"
+		  format="reference" />
+
+	<dimen name="fontsize_tiny">9dp</dimen>
+	<dimen name="fontsize_smaller">11dp</dimen>
+	<dimen name="fontsize_small">12dp</dimen>
+	<dimen name="fontsize_normal">14dp</dimen>
+	<dimen name="fontsize_large">17dp</dimen>
+	<dimen name="fontsize_xlarge">20dp</dimen>
+	<dimen name="fontsize_xxlarge">24dp</dimen>
+	<dimen name="fontsize_xxxlarge">28dp</dimen>
+
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+
+	<style name="AppTheme"
+		   parent="Theme.AppCompat.Light.DarkActionBar">
+		<item name="colorPrimary">#009688</item>
+		<item name="colorPrimaryDark">#00796b</item>
+		<item name="colorAccent">@color/colorAccent</item>
+		<item name="android:textAppearance">@style/TextAppearance.DefaultFont</item>
+		<item name="android:textViewStyle">@style/TextAppearance.DefaultFont</item>
+		<item name="persianDateTimePickerFontPath">@string/iran_sans_light</item>
+		<item name="persianDateTimePickerTextAppearance">@style/TextAppearance.IranLight</item>
+	</style>
+
+
+</resources>
