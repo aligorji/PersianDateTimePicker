@@ -25,7 +25,7 @@ import android.graphics.Paint.Style;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
-import ir.aligorji.persiandatetimepicker.PersianDateTimePickerTypeface;
+import ir.aligorji.persiandatetimepicker.PersianDateTimePickerConfiguration;
 import ir.aligorji.persiandatetimepicker.R;
 import ir.aligorji.persiandatetimepicker.utils.LanguageUtils;
 
@@ -48,7 +48,7 @@ public class TextViewWithCircularIndicator extends android.support.v7.widget.App
     public TextViewWithCircularIndicator(Context context, AttributeSet attrs) {
         super(context, attrs);
         Resources res = context.getResources();
-        mCircleColor = PersianDateTimePickerTypeface.getColorAccent();
+        mCircleColor = PersianDateTimePickerConfiguration.getColorAccent();
         mRadius = res.getDimensionPixelOffset(R.dimen.mdtp_month_select_circle_radius);
         mItemIsSelectedText = context.getResources().getString(R.string.mdtp_item_is_selected);
 

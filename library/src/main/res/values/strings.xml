@@ -63,11 +63,4 @@
     <!-- DO NOT TRANSLATE -->
     <string name="mdtp_time_separator" translatable="false">:</string>
 
-    <!-- DO NOT TRANSLATE -->
-    <string name="mdtp_radial_numbers_typeface" translatable="false">sans-serif</string>
-    <!-- DO NOT TRANSLATE -->
-    <string name="mdtp_sans_serif" translatable="false">sans-serif</string>
-
-    <!-- DO NOT TRANSLATE -->
-    <string name="mdtp_day_of_week_label_typeface" translatable="false">sans-serif</string>
 </resources>

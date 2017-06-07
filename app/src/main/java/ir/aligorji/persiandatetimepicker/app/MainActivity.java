@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements
                         now.get(PersianCalendar.MINUTE),
                         mode24Hours.isChecked()
                 );
-                tpd.setThemeDark(modeDarkTime.isChecked());
                 tpd.setOnCancelListener(new DialogInterface.OnCancelListener()
                 {
                     @Override
@@ -97,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements
                         now.getPersianMonth(),
                         now.getPersianDay()
                 );
-                dpd.setThemeDark(modeDarkDate.isChecked());
                 dpd.show(getFragmentManager(), DATEPICKER);
                 break;
             }

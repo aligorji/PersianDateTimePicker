@@ -21,11 +21,10 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
 
-import ir.aligorji.persiandatetimepicker.PersianDateTimePickerTypeface;
+import ir.aligorji.persiandatetimepicker.PersianDateTimePickerConfiguration;
 import ir.aligorji.persiandatetimepicker.R;
 import ir.aligorji.persiandatetimepicker.Utils;
 
@@ -33,7 +32,9 @@ import ir.aligorji.persiandatetimepicker.Utils;
 /**
  * Draw the two smaller AM and PM circles next to where the larger circle will be.
  */
-public class AmPmCirclesView extends View {
+public class AmPmCirclesView extends View
+{
+
     private static final String TAG = "AmPmCirclesView";
 
     // Alpha level for selected circle.
@@ -64,27 +65,28 @@ public class AmPmCirclesView extends View {
     private int mAmOrPm;
     private int mAmOrPmPressed;
 
-    public AmPmCirclesView(Context context) {
+    public AmPmCirclesView(Context context)
+    {
         super(context);
         mIsInitialized = false;
     }
 
-    public void initialize(Context context, int amOrPm) {
-        if (mIsInitialized) {
+    public void initialize(Context context, int amOrPm)
+    {
+        if (mIsInitialized)
+        {
             Log.e(TAG, "AmPmCirclesView may only be initialized once.");
             return;
         }
 
         Resources res = context.getResources();
         mUnselectedColor = res.getColor(R.color.mdtp_white);
-        mSelectedColor = PersianDateTimePickerTypeface.getColorAccent();
-        mTouchedColor = res.getColor(R.color.mdtp_accent_color_dark);
+        mSelectedColor = PersianDateTimePickerConfiguration.getColorAccent();
+        mTouchedColor = PersianDateTimePickerConfiguration.getColorAccent();
         mAmPmTextColor = res.getColor(R.color.mdtp_ampm_text_color);
         mAmPmSelectedTextColor = res.getColor(R.color.mdtp_white);
         mSelectedAlpha = SELECTED_ALPHA;
-        String typefaceFamily = res.getString(R.string.mdtp_sans_serif);
-        Typeface tf = Typeface.create(typefaceFamily, Typeface.NORMAL);
-        mPaint.setTypeface(tf);
+        mPaint.setTypeface(PersianDateTimePickerConfiguration.getNormalFont());
         mPaint.setAntiAlias(true);
         mPaint.setTextAlign(Align.CENTER);
 
@@ -101,48 +103,50 @@ public class AmPmCirclesView extends View {
         mIsInitialized = true;
     }
 
-    /* package */ void setTheme(Context context, boolean themeDark) {
+    /* package */ void setTheme(Context context)
+    {
         Resources res = context.getResources();
-        if (themeDark) {
-            mUnselectedColor = res.getColor(R.color.mdtp_circle_background_dark_theme);
-            mSelectedColor = res.getColor(R.color.mdtp_red);
-            mAmPmTextColor = res.getColor(R.color.mdtp_white);
-            mSelectedAlpha = SELECTED_ALPHA_THEME_DARK;
-        } else {
-            mUnselectedColor = res.getColor(R.color.mdtp_white);
-            mSelectedColor = PersianDateTimePickerTypeface.getColorAccent();
-            mAmPmTextColor = res.getColor(R.color.mdtp_ampm_text_color);
-            mSelectedAlpha = SELECTED_ALPHA;
-        }
+
+        mUnselectedColor = res.getColor(R.color.mdtp_white);
+        mSelectedColor = PersianDateTimePickerConfiguration.getColorAccent();
+        mAmPmTextColor = res.getColor(R.color.mdtp_ampm_text_color);
+        mSelectedAlpha = SELECTED_ALPHA;
+
     }
 
-    public void setAmOrPm(int amOrPm) {
+    public void setAmOrPm(int amOrPm)
+    {
         mAmOrPm = amOrPm;
     }
 
-    public void setAmOrPmPressed(int amOrPmPressed) {
+    public void setAmOrPmPressed(int amOrPmPressed)
+    {
         mAmOrPmPressed = amOrPmPressed;
     }
 
     /**
      * Calculate whether the coordinates are touching the AM or PM circle.
      */
-    public int getIsTouchingAmOrPm(float xCoord, float yCoord) {
-        if (!mDrawValuesReady) {
+    public int getIsTouchingAmOrPm(float xCoord, float yCoord)
+    {
+        if (!mDrawValuesReady)
+        {
             return -1;
         }
 
-        int squaredYDistance = (int) ((yCoord - mAmPmYCenter)*(yCoord - mAmPmYCenter));
+        int squaredYDistance = (int) ((yCoord - mAmPmYCenter) * (yCoord - mAmPmYCenter));
 
         int distanceToAmCenter =
-                (int) Math.sqrt((xCoord - mAmXCenter)*(xCoord - mAmXCenter) + squaredYDistance);
-        if (distanceToAmCenter <= mAmPmCircleRadius) {
+                (int) Math.sqrt((xCoord - mAmXCenter) * (xCoord - mAmXCenter) + squaredYDistance);
+        if (distanceToAmCenter <= mAmPmCircleRadius)
+        {
             return AM;
         }
 
         int distanceToPmCenter =
-                (int) Math.sqrt((xCoord - mPmXCenter)*(xCoord - mPmXCenter) + squaredYDistance);
-        if (distanceToPmCenter <= mAmPmCircleRadius) {
+                (int) Math.sqrt((xCoord - mPmXCenter) * (xCoord - mPmXCenter) + squaredYDistance);
+        if (distanceToPmCenter <= mAmPmCircleRadius)
+        {
             return PM;
         }
 
@@ -151,20 +155,23 @@ public class AmPmCirclesView extends View {
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas)
+    {
         int viewWidth = getWidth();
-        if (viewWidth == 0 || !mIsInitialized) {
+        if (viewWidth == 0 || !mIsInitialized)
+        {
             return;
         }
 
-        if (!mDrawValuesReady) {
+        if (!mDrawValuesReady)
+        {
             int layoutXCenter = getWidth() / 2;
             int layoutYCenter = getHeight() / 2;
             int circleRadius =
                     (int) (Math.min(layoutXCenter, layoutYCenter) * mCircleRadiusMultiplier);
             mAmPmCircleRadius = (int) (circleRadius * mAmPmCircleRadiusMultiplier);
-            layoutYCenter += mAmPmCircleRadius*0.75;
-            int textSize = mAmPmCircleRadius * 3 / 4;
+            layoutYCenter += mAmPmCircleRadius * 0.75;
+            int textSize = mAmPmCircleRadius * 2 / 4;
             mPaint.setTextSize(textSize);
 
             // Line up the vertical center of the AM/PM circles with the bottom of the main circle.
@@ -186,19 +193,25 @@ public class AmPmCirclesView extends View {
         int pmAlpha = 255;
         int pmTextColor = mAmPmTextColor;
 
-        if (mAmOrPm == AM) {
+        if (mAmOrPm == AM)
+        {
             amColor = mSelectedColor;
             amAlpha = mSelectedAlpha;
             amTextColor = mAmPmSelectedTextColor;
-        } else if (mAmOrPm == PM) {
+        }
+        else if (mAmOrPm == PM)
+        {
             pmColor = mSelectedColor;
             pmAlpha = mSelectedAlpha;
             pmTextColor = mAmPmSelectedTextColor;
         }
-        if (mAmOrPmPressed == AM) {
+        if (mAmOrPmPressed == AM)
+        {
             amColor = mTouchedColor;
             amAlpha = mSelectedAlpha;
-        } else if (mAmOrPmPressed == PM) {
+        }
+        else if (mAmOrPmPressed == PM)
+        {
             pmColor = mTouchedColor;
             pmAlpha = mSelectedAlpha;
         }

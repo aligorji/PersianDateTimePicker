@@ -20,7 +20,6 @@ import android.animation.ObjectAnimator;
 import android.app.ActionBar.LayoutParams;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import ir.aligorji.persiandatetimepicker.HapticFeedbackController;
-import ir.aligorji.persiandatetimepicker.PersianDateTimePickerTypeface;
 import ir.aligorji.persiandatetimepicker.R;
 import ir.aligorji.persiandatetimepicker.Utils;
 import ir.aligorji.persiandatetimepicker.utils.LanguageUtils;
@@ -60,7 +58,6 @@ public class TimePickerDialog extends DialogFragment implements RadialPickerLayo
     private static final String KEY_CURRENT_ITEM_SHOWING = "current_item_showing";
     private static final String KEY_IN_KB_MODE = "in_kb_mode";
     private static final String KEY_TYPED_TIMES = "typed_times";
-    private static final String KEY_DARK_THEME = "dark_theme";
 
     public static final int HOUR_INDEX = 0;
     public static final int MINUTE_INDEX = 1;
@@ -99,7 +96,6 @@ public class TimePickerDialog extends DialogFragment implements RadialPickerLayo
     private int mInitialMinute;
     private boolean mIs24HourMode;
     private String mTitle;
-    private boolean mThemeDark;
 
     // For hardware IME input.
     private char mPlaceholderText;
@@ -158,7 +154,6 @@ public class TimePickerDialog extends DialogFragment implements RadialPickerLayo
         mIs24HourMode = is24HourMode;
         mInKbMode = false;
         mTitle = "";
-        mThemeDark = false;
     }
 
     /**
@@ -172,16 +167,6 @@ public class TimePickerDialog extends DialogFragment implements RadialPickerLayo
         return mTitle;
     }
 
-    /**
-     * Set a dark or light theme. NOTE: this will only take effect for the next onCreateView.
-     */
-    public void setThemeDark(boolean dark) {
-        mThemeDark = dark;
-    }
-
-    public boolean isThemeDark() {
-        return mThemeDark;
-    }
 
     public void setOnTimeSetListener(OnTimeSetListener callback) {
         mCallback = callback;
@@ -212,7 +197,6 @@ public class TimePickerDialog extends DialogFragment implements RadialPickerLayo
             mIs24HourMode = savedInstanceState.getBoolean(KEY_IS_24_HOUR_VIEW);
             mInKbMode = savedInstanceState.getBoolean(KEY_IN_KB_MODE);
             mTitle = savedInstanceState.getString(KEY_TITLE);
-            mThemeDark = savedInstanceState.getBoolean(KEY_DARK_THEME);
         }
     }
 
@@ -360,34 +344,13 @@ public class TimePickerDialog extends DialogFragment implements RadialPickerLayo
         }
 
         // Set the theme at the end so that the initialize()s above don't counteract the theme.
-        mTimePicker.setTheme(getActivity().getApplicationContext(), mThemeDark);
+        mTimePicker.setTheme(getActivity().getApplicationContext());
         // Prepare some colors to use.
-        int white = res.getColor(R.color.mdtp_white);
-        int accent = PersianDateTimePickerTypeface.getColorAccent();
         int circleBackground = res.getColor(R.color.mdtp_circle_background);
-        int line = res.getColor(R.color.mdtp_line_background);
-        int timeDisplay = res.getColor(R.color.mdtp_numbers_text_color);
-        ColorStateList doneTextColor = res.getColorStateList(R.color.mdtp_done_text_color);
-        //int doneBackground = R.drawable.mdtp_done_background_color;
         int backgroundColor = res.getColor(R.color.mdtp_background_color);
-        int darkBackgroundColor = res.getColor(R.color.mdtp_light_gray);
 
-        int darkGray = res.getColor(R.color.mdtp_dark_gray);
-        int lightGray = res.getColor(R.color.mdtp_light_gray);
-        int darkLine = res.getColor(R.color.mdtp_line_dark);
-        ColorStateList darkDoneTextColor = res.getColorStateList(R.color.mdtp_done_text_color_dark);
-        //int darkDoneBackground = R.drawable.mdtp_done_background_color_dark;
-
-        // Set the colors for each view based on the theme.
-        //view.findViewById(R.id.time_display_background).setBackgroundColor(mThemeDark? darkGray : accent);
-        //view.findViewById(R.id.time_display).setBackgroundColor(mThemeDark? darkGray : white);
-        //((TextView) view.findViewById(R.id.separator)).setTextColor(mThemeDark? white : timeDisplay);
-        //((TextView) view.findViewById(R.id.ampm_label)).setTextColor(mThemeDark? white : timeDisplay);
-        //view.findViewById(R.id.line).setBackgroundColor(mThemeDark? darkLine : line);
-        //mOkButton.setTextColor(mThemeDark? darkDoneTextColor : doneTextColor);
-        mTimePicker.setBackgroundColor(mThemeDark? lightGray : circleBackground);
-        view.findViewById(R.id.time_picker_dialog).setBackgroundColor(mThemeDark ? darkBackgroundColor : backgroundColor);
-        //mOkButton.setBackgroundResource(mThemeDark? darkDoneBackground : doneBackground);
+        mTimePicker.setBackgroundColor(circleBackground);
+        view.findViewById(R.id.time_picker_dialog).setBackgroundColor(backgroundColor);
         return view;
     }
 
@@ -445,7 +408,6 @@ public class TimePickerDialog extends DialogFragment implements RadialPickerLayo
                 outState.putIntegerArrayList(KEY_TYPED_TIMES, mTypedTimes);
             }
             outState.putString(KEY_TITLE, mTitle);
-            outState.putBoolean(KEY_DARK_THEME, mThemeDark);
         }
     }
 

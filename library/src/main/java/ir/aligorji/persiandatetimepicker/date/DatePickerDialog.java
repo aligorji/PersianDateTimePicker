@@ -23,7 +23,6 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,8 +51,6 @@ import ir.aligorji.persiandatetimepicker.utils.PersianCalendar;
 public class DatePickerDialog extends DialogFragment implements
         OnClickListener, DatePickerController {
 
-    private static final String TAG = "DatePickerDialog";
-
     private static final int UNINITIALIZED = -1;
     private static final int MONTH_AND_DAY_VIEW = 0;
     private static final int YEAR_VIEW = 1;
@@ -71,7 +68,6 @@ public class DatePickerDialog extends DialogFragment implements
     private static final String KEY_MAX_DATE = "max_date";
     private static final String KEY_HIGHLIGHTED_DAYS = "highlighted_days";
     private static final String KEY_SELECTABLE_DAYS = "selectable_days";
-    private static final String KEY_THEME_DARK = "theme_dark";
 
     private static final int DEFAULT_START_YEAR = 1350;
     private static final int DEFAULT_END_YEAR = 1450;
@@ -104,7 +100,6 @@ public class DatePickerDialog extends DialogFragment implements
     private PersianCalendar mMaxDate;
     private PersianCalendar[] highlightedDays;
     private PersianCalendar[] selectableDays;
-    private boolean mThemeDark;
 
     private HapticFeedbackController mHapticFeedbackController;
 
@@ -161,7 +156,6 @@ public class DatePickerDialog extends DialogFragment implements
     public void initialize(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth) {
         mCallBack = callBack;
         mPersianCalendar.setPersianDate(year, monthOfYear, dayOfMonth);
-        mThemeDark = false;
     }
 
     @Override
@@ -201,13 +195,11 @@ public class DatePickerDialog extends DialogFragment implements
         outState.putSerializable(KEY_MAX_DATE, mMaxDate);
         outState.putSerializable(KEY_HIGHLIGHTED_DAYS, highlightedDays);
         outState.putSerializable(KEY_SELECTABLE_DAYS, selectableDays);
-        outState.putBoolean(KEY_THEME_DARK, mThemeDark);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         View view = inflater.inflate(R.layout.mdtp_date_picker_dialog, null);
@@ -234,7 +226,6 @@ public class DatePickerDialog extends DialogFragment implements
             mMaxDate = (PersianCalendar)savedInstanceState.getSerializable(KEY_MAX_DATE);
             highlightedDays = (PersianCalendar[])savedInstanceState.getSerializable(KEY_HIGHLIGHTED_DAYS);
             selectableDays = (PersianCalendar[])savedInstanceState.getSerializable(KEY_SELECTABLE_DAYS);
-            mThemeDark = savedInstanceState.getBoolean(KEY_THEME_DARK);
         }
 
         final Activity activity = getActivity();
@@ -247,8 +238,7 @@ public class DatePickerDialog extends DialogFragment implements
         mYearPickerDescription = res.getString(R.string.mdtp_year_picker_description);
         mSelectYear = res.getString(R.string.mdtp_select_year);
 
-        int bgColorResource = mThemeDark ? R.color.mdtp_date_picker_view_animator_dark_theme : R.color.mdtp_date_picker_view_animator;
-        view.setBackgroundColor(activity.getResources().getColor(bgColorResource));
+        view.setBackgroundColor(activity.getResources().getColor(R.color.mdtp_date_picker_view_animator));
 
         mAnimator = (AccessibleDateAnimator) view.findViewById(R.id.animator);
         mAnimator.addView(mDayPickerView);
@@ -400,23 +390,6 @@ public class DatePickerDialog extends DialogFragment implements
                     getPersianNumbers(mPersianCalendar.getPersianLongDate());
             Utils.tryAccessibilityAnnounce(mAnimator, fullDateText);
         }
-    }
-
-    /**
-     * Set whether the dark theme should be used
-     * @param themeDark true if the dark theme should be used, false if the default theme should be used
-     */
-    public void setThemeDark(boolean themeDark) {
-        mThemeDark = themeDark;
-    }
-
-    /**
-     * Returns true when the dark theme should be used
-     * @return true if the dark theme should be used, false if the default theme should be used
-     */
-    @Override
-    public boolean isThemeDark() {
-        return mThemeDark;
     }
 
     @SuppressWarnings("unused")

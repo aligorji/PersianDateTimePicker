@@ -7,7 +7,6 @@
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="android:textAppearance">@style/TextAppearance.DefaultFont</item>
 		<item name="android:textViewStyle">@style/TextAppearance.DefaultFont</item>
-		<item name="persianDateTimePickerFontPath">@string/iran_sans_light</item>
 		<item name="persianDateTimePickerTextAppearance">@style/TextAppearance.IranLight</item>
 	</style>
 
