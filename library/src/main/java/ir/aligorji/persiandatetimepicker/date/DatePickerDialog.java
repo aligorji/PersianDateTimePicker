@@ -155,7 +155,7 @@ public class DatePickerDialog extends DialogFragment implements
 
     public void initialize(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth) {
         mCallBack = callBack;
-        mPersianCalendar.setPersianDate(year, monthOfYear, dayOfMonth);
+        mPersianCalendar.setPersianDate(year, monthOfYear-1, dayOfMonth);
     }
 
     @Override
@@ -261,7 +261,7 @@ public class DatePickerDialog extends DialogFragment implements
                 tryVibrate();
                 if (mCallBack != null) {
                     mCallBack.onDateSet(DatePickerDialog.this, mPersianCalendar.getPersianYear(),
-                            mPersianCalendar.getPersianMonth(), mPersianCalendar.getPersianDay());
+                            mPersianCalendar.getPersianMonth()+1, mPersianCalendar.getPersianDay());
                 }
                 dismiss();
             }

@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity implements
                 PersianCalendar now = new PersianCalendar();
                 DatePickerDialog dpd = DatePickerDialog.newInstance(
                         MainActivity.this,
-                        now.getPersianYear(),
-                        now.getPersianMonth(),
-                        now.getPersianDay()
+                        1396,
+                        3,
+                        10
                 );
                 dpd.show(getFragmentManager(), DATEPICKER);
                 break;
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth)
     {
         // Note: monthOfYear is 0-indexed
-        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear) + "/" + year;
         dateTextView.setText(date);
     }
 
