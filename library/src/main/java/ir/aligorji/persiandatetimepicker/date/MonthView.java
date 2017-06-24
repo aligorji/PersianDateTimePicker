@@ -126,6 +126,7 @@ public abstract class MonthView extends View
     protected Paint mMonthNumPaint;
     protected Paint mMonthTitlePaint;
     protected Paint mSelectedCirclePaint;
+    protected Paint mDayTitleBackPaint;
     protected Paint mMonthDayLabelPaint;
 
     private final StringBuilder mStringBuilder;
@@ -303,6 +304,12 @@ public abstract class MonthView extends View
         mSelectedCirclePaint.setStyle(Style.FILL);
         mSelectedCirclePaint.setAlpha(SELECTED_CIRCLE_ALPHA);
 
+        mDayTitleBackPaint = new Paint();
+        mDayTitleBackPaint.setAntiAlias(true);
+        mDayTitleBackPaint.setColor(mTodayNumberColor);
+        mDayTitleBackPaint.setStyle(Style.FILL);
+        mDayTitleBackPaint.setAlpha(20);
+
         mMonthDayLabelPaint = new Paint();
         mMonthDayLabelPaint.setAntiAlias(true);
         mMonthDayLabelPaint.setTextSize(MONTH_DAY_LABEL_TEXT_SIZE);
@@ -479,13 +486,21 @@ public abstract class MonthView extends View
 
     protected void drawMonthDayLabels(Canvas canvas)
     {
-        int y = getMonthHeaderSize() - (MONTH_DAY_LABEL_TEXT_SIZE / 2);
+
+
+        int y = getMonthHeaderSize() - (MONTH_DAY_LABEL_TEXT_SIZE);
         int dayWidthHalf = (mWidth - mEdgePadding * 2) / (mNumDays * 2);
+
+        canvas.drawRect(mEdgePadding,
+                        y - MONTH_DAY_LABEL_TEXT_SIZE,
+                        mEdgePadding + (dayWidthHalf * 2 * mNumDays),
+                        y + MONTH_DAY_LABEL_TEXT_SIZE,
+                        mDayTitleBackPaint);
 
         for (int i = 0; i < mNumDays; i++)
         {
             int calendarDay = (i + mWeekStart) % mNumDays;
-            int x = (2 * i + 1) * dayWidthHalf + mEdgePadding;
+            int x = (2 * (mNumDays - i - 1) + 1) * dayWidthHalf + mEdgePadding;
             mDayLabelCalendar.set(Calendar.DAY_OF_WEEK, calendarDay);
             String localWeekDisplayName = mDayLabelCalendar.getPersianWeekDayName();
             String weekString = localWeekDisplayName.substring(0, 1);
@@ -507,7 +522,7 @@ public abstract class MonthView extends View
         int j = findDayOffset();
         for (int dayNumber = 1; dayNumber <= mNumCells; dayNumber++)
         {
-            final int x = (int) ((2 * j + 1) * dayWidthHalf + mEdgePadding);
+            final int x = (int) ((2 * (mNumDays - j - 1) + 1) * dayWidthHalf + mEdgePadding);
 
             int yRelativeToDay = (mRowHeight + MINI_DAY_NUMBER_TEXT_SIZE) / 2 - DAY_SEPARATOR_WIDTH;
 
