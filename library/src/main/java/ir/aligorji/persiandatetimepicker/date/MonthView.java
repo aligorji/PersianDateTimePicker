@@ -601,7 +601,7 @@ public abstract class MonthView extends View
         int row = (int) (y - getMonthHeaderSize()) / mRowHeight;
         int column = (int) ((x - dayStart) * mNumDays / (mWidth - dayStart - mEdgePadding));
 
-        int day = column - findDayOffset() + 1;
+        int day = (mNumDays - column - 1) - findDayOffset() + 1;
         day += row * mNumDays;
         return day;
     }
