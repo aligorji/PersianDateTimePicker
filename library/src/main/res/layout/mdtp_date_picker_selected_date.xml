@@ -24,6 +24,8 @@
 	android:layout_weight="1"
 	android:background="?colorAccent"
 	android:gravity="center"
+	android:paddingTop="10dp"
+	android:paddingBottom="6dp"
 	android:orientation="vertical">
 
 	<ir.aligorji.persiandatetimepicker.AccessibleLinearLayout
