@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import ir.aligorji.persiandatetimepicker.R;
 import ir.aligorji.persiandatetimepicker.utils.LanguageUtils;
@@ -72,7 +73,7 @@ public class YearPickerView extends ListView implements OnItemClickListener, Dat
     private void init(Context context) {
         ArrayList<String> years = new ArrayList<>();
         for (int year = mController.getMinYear(); year <= mController.getMaxYear(); year++) {
-            years.add(String.format("%d", year));
+            years.add(String.format(Locale.US, "%d", year));
         }
         years = LanguageUtils.getPersianNumbers(years);
         mAdapter = new YearAdapter(context, R.layout.mdtp_year_label_text_view, years);

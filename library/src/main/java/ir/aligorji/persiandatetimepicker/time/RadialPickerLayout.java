@@ -39,6 +39,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import ir.aligorji.persiandatetimepicker.HapticFeedbackController;
 import ir.aligorji.persiandatetimepicker.R;
@@ -212,10 +213,10 @@ public class RadialPickerLayout extends FrameLayout implements OnTouchListener
         for (int i = 0; i < 12; i++)
         {
             hoursTexts[i] = LanguageUtils.getPersianNumbers(
-                    is24HourMode ? String.format("%02d", hours_24[i]) : String.format("%d", hours[i])
+                    is24HourMode ? String.format(Locale.US, "%02d", hours_24[i]) : String.format(Locale.US, "%d", hours[i])
             );
-            innerHoursTexts[i] = LanguageUtils.getPersianNumbers(String.format("%d", hours[i]));
-            minutesTexts[i] = LanguageUtils.getPersianNumbers(String.format("%02d", minutes[i]));
+            innerHoursTexts[i] = LanguageUtils.getPersianNumbers(String.format(Locale.US, "%d", hours[i]));
+            minutesTexts[i] = LanguageUtils.getPersianNumbers(String.format(Locale.US, "%02d", minutes[i]));
         }
         mHourRadialTextsView.initialize(res,
                                         hoursTexts, (is24HourMode ? innerHoursTexts : null), mHideAmPm, true);
